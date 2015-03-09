@@ -20,7 +20,7 @@ namespace bam {
     const double _2PI = 6.28318531;
     const double PI_4 = 0.785398163;
 
-    double WrapToPi(double angle) {
+    inline double WrapToPi(double angle) {
 
         angle = fmod(angle + M_PI, 2*M_PI);
         if (angle < 0)
@@ -92,10 +92,9 @@ namespace bam {
         return *this;
     }
 
-    // BAM32& BAM32::operator=(double rhs) {
-    //   setValue(rhs);
-    //   return *this;
-    // }
+    BAM32& BAM32::operator=(double rhs) {
+      SetFromDouble(rhs);
+    }
 
     // Member binary operators
     BAM32& BAM32::operator+=(const BAM32& rhs) {

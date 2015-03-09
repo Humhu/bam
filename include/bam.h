@@ -42,7 +42,7 @@
 
 namespace bam {
 
-double WrapToPi(double angle);
+inline double WrapToPi(double angle);
 
 class BAM32 {
 public:
