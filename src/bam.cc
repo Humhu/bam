@@ -42,7 +42,7 @@ namespace bam {
     BAM32::BAM32(const BAM32& other) :
     val(other.val) {}
 
-    BAM32::BAM32(const double d) :
+    BAM32::BAM32(double d) :
     val( RAD_TO_BAMS32*WrapToPi(d) ) {}
 
     double BAM32::ToDouble() const {
@@ -94,6 +94,7 @@ namespace bam {
 
     BAM32& BAM32::operator=(double rhs) {
       SetFromDouble(rhs);
+	  return *this;
     }
 
     // Member binary operators

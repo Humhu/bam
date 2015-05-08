@@ -56,7 +56,7 @@ public:
     BAM32();
     BAM32(BinaryType b);
     BAM32(const BAM32& other);
-    BAM32(const double d);
+    BAM32(double d);
 
     // Conversion functions
     double ToDouble() const; // Implicit conversion might be trouble...
@@ -73,7 +73,7 @@ public:
     BAM32 operator--(int);
     
     BAM32& operator=(const BAM32& rhs);
-    //BAM32& operator=(double rhs);
+    BAM32& operator=(double rhs);
     BAM32& operator+=(const BAM32& rhs);
     BAM32& operator-=(const BAM32& rhs);
     BAM32& operator*=(int n);

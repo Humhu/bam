@@ -1,24 +1,36 @@
-cmake_minimum_required(VERSION 2.8)
-project(libbam)
+# BAM CMake file
+# Humphrey Hu, 2015
 
-if (NOT CMAKE_BUILD_TYPE)
+cmake_minimum_required(VERSION 2.8)
+project(bam)
+
+if (NOT DEFINED CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
   message(STATUS "No build type selected, default to Release")
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
 endif ()
+message(STATUS "Build configuration: ${CMAKE_BUILD_TYPE}")
 
-set(libbam_VERSION_MAJOR 0)
-set(libbam_VERSION_MINOR 1)
-set(libbam_VERSION ${libbam_VERSION_MAJOR}.${libbam_VERSION_MINOR})
+# Set version
+set(bam_VERSION_MAJOR 0)
+set(bam_VERSION_MINOR 2)
+set(bam_VERSION ${bam_VERSION_MAJOR}.${bam_VERSION_MINOR})
+
+# Set install paths
+set (LIBRARY_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/lib" CACHE PATH
+  "Target directory for all libraries.")
+set (EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/bin" CACHE PATH
+  "Target directory for all executables.")
 
 #set the debug flag and enable all warnings
-set(CMAKE_CXX_FLAGS "-g -Wall -std=c++0x")
-set(INSTALL_CMAKE_DIR "${CMAKE_INSTALL_PREFIX}/lib/cmake/libbam" CACHE PATH
-    "Installation directory for CMake files")
+add_definitions("-g -Wall -std=c++0x")
 
-include_directories(
-    ${libbam_SOURCE_DIR}/include
-)
+set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/include/bam")
+set(LIBRARY_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib")
+set(BINARY_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/bin")
 
+include_directories( ${PROJECT_SOURCE_DIR}/include )
+
+# TODO Set bit-sizes
 add_library(bam SHARED src/bam.cc src/bam32Lookups.h)
 
 set_target_properties(bam PROPERTIES
@@ -28,39 +40,24 @@ add_executable(BAMTest tests/BAMTest.cc)
 target_link_libraries(BAMTest bam)
 
 install(TARGETS bam
-    EXPORT libbamTargets
-    LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX}/lib"
-    PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_PREFIX}/include/libbam"
-)
+    EXPORT bamTargets
+    LIBRARY DESTINATION "${LIBRARY_INSTALL_DIR}" COMPONENT shlib
+    PUBLIC_HEADER DESTINATION "${INCLUDE_INSTALL_DIR}"
+    COMPONENT dev)
 
 export(TARGETS bam
-    FILE "${PROJECT_BINARY_DIR}/libbamTargets.cmake")
-export(PACKAGE libbam)
+    FILE "${PROJECT_BINARY_DIR}/bamTargets.cmake")
+    
+configure_file(bamConfig.cmake.in
+    "${PROJECT_BINARY_DIR}/bamConfig.cmake" @ONLY)
 
-set(CONF_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include")
-set(CONF_LIBRARY "${CMAKE_INSTALL_PREFIX}/lib/libbam.so")
-
-install(EXPORT libbamTargets
-    DESTINATION "${INSTALL_CMAKE_DIR}")
-
-# #Lets build the documentation
-# #######################################################################################
-# #-- Add an Option to toggle the generation of the API documentation
-# #option(BUILD_DOCUMENTATION "Use Doxygen to create the HTML based API documentation" ON)
-# #if(BUILD_DOCUMENTATION)
-#   FIND_PACKAGE(Doxygen)
-#   if (NOT DOXYGEN_FOUND)
-#     message(FATAL_ERROR 
-#       "Doxygen is needed to build the documentation. Please install it correctly")
-#   endif()
-#   #-- Configure the Template Doxyfile for our specific project
-#   configure_file(Doxyfile ${localizer_SOURCE_DIR}/Doxyfile  @ONLY IMMEDIATE)
-#   #-- Add a custom target to run Doxygen when ever the project is built
-#   add_custom_target (docs #ALL 
-#     COMMAND ${DOXYGEN_EXECUTABLE} ${localizer_SOURCE_DIR}/Doxyfile
-#     SOURCES ${localizer_SOURCE_DIR}/Doxyfile)
-# 
-#   # IF you do NOT want the documentation to be generated EVERY time you build the project
-#   # then leave out the 'ALL' keyword from the above command.
-# #endif()
-# ##############################################################################################
+configure_file(bamConfigVersion.cmake.in
+    "${PROJECT_BINARY_DIR}/bamConfigVersion.cmake" @ONLY)
+    
+install(FILES
+    "${PROJECT_BINARY_DIR}/bamConfig.cmake"
+    "${PROJECT_BINARY_DIR}/bamConfigVersion.cmake"
+    DESTINATION "${CMAKE_INSTALL_PREFIX}" COMPONENT dev)
+    
+install(EXPORT bamTargets
+    DESTINATION "${CMAKE_INSTALL_PREFIX}" COMPONENT dev)
