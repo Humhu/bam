@@ -49,9 +49,9 @@ namespace bam {
         return val*BAMS32_TO_RAD;
     }
 
-    inline BAM32::BinaryType BAM32::ToBinary() const {
-        return val;
-    }
+//     inline BAM32::BinaryType BAM32::ToBinary() const {
+//         return val;
+//     }
     
     // Unary operators
     BAM32 BAM32::operator+() const {

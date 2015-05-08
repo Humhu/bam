@@ -1,0 +1,17 @@
+# - Config file for the bam package
+# It defines the following variables
+#  bam_INCLUDE_DIRS - include directories for bam
+#  bam_LIBRARIES    - libraries to link against
+#  bam_DEFINITIONS  - define flags for bam
+
+get_filename_component(bam_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+include("${bam_CMAKE_DIR}/bamTargets.cmake")
+get_filename_component(bam_INCLUDE_DIRS "${bam_CMAKE_DIR}/include/" ABSOLUTE)
+list(APPEND bam_INCLUDE_DIRS "@bam_INCLUDES@")
+
+#set(bam_LIBRARIES "@bam_LIBS@")
+#list(APPEND bam_LIBRARIES "${bam_CMAKE_DIR}/lib/libbam.so")
+set(bam_LIBRARIES "${bam_CMAKE_DIR}/lib/libbam.so")
+
+set(bam_DEFINITIONS "@bam_DEFS@")
