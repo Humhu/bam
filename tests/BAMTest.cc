@@ -1,4 +1,4 @@
-#include "bam.h"
+#include "bam/bam.h"
 #include <cmath>
 #include <ctime>
 #include <cstdlib>

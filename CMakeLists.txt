@@ -34,7 +34,7 @@ include_directories( ${PROJECT_SOURCE_DIR}/include )
 add_library(bam SHARED src/bam.cc src/bam32Lookups.h)
 
 set_target_properties(bam PROPERTIES
-    PUBLIC_HEADER "include/bam.h")
+    PUBLIC_HEADER "include/bam/bam.h")
 
 add_executable(BAMTest tests/BAMTest.cc)
 target_link_libraries(BAMTest bam)
