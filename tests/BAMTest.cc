@@ -28,6 +28,8 @@ int main(int argc, char *argv[]) {
     std::cout << "b1/-2 " << b1/-2 << std::endl;
     std::cout << "b1/-2.0 " << b1/-2.0 << std::endl;
 
+	std::cout << "abs(b3) " << bamAbs(b3) << std::endl;
+	
     BAM32 b6(M_PI/3.0), b7(2*M_PI/3.0), b8(4*M_PI/3.0), b9(5*M_PI/3.0), b10(M_PI/2.0);
     std::cout << "b6 (pi/3) " << b6 << std::endl;
     std::cout << "b7 (2pi/3) " << b7 << std::endl;

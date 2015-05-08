@@ -167,6 +167,11 @@ namespace bam {
         return b;
     }
     
+    BAM32 bamAbs( BAM32 b ) {
+		if( b.val < 0 ) { return -b; }
+		return b;
+	}
+    
     std::ostream& operator<<(std::ostream& os, const BAM32& b) {
         os << b.ToDouble();
         return os;
